@@ -8,7 +8,11 @@ from agno.tools.yfinance import YFinanceTools
 import os
 
 # Set API key securely (on Streamlit Cloud, use secrets instead)
-os.environ["GROQ_API_KEY"] = st.secrets["GROQ_API_KEY"]
+groq_key = st.secrets.get("GROQ_API_KEY")
+if not groq_key:
+    st.error("❌ GROQ_API_KEY is missing in secrets.")
+    st.stop()
+os.environ["GROQ_API_KEY"] = groq_key
 
 # Define the agent
 Technical_analysis_agent = Agent(
